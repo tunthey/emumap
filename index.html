@@ -1,0 +1,135 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>School of Computing and Technology</title>
+	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+    <script src="css/jquery-1.11.0.js" type="text/javascript"></script>
+    <script src="css/jquery.mobile-1.4.5.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="themes/mycustomtheme.min.css" />
+	<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
+	<script src="galleria/galleria-1.4.2.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+ <script src="js/appscript.js" type="text/javascript"></script>
+
+<script id="panel-init">
+		$(function() {
+			//$( "body>[data-role='panel']" ).panel().enhanceWithin();;
+			$( "[data-role='header'], [data-role='footer']" ).toolbar();
+		});
+	
+	</script>
+	<style>
+    .galleria{ width: 100%; height: 100%; background: #000 }
+
+    .img-cool{
+    	display: block;
+    	margin: 1 em auto 0;
+    	width:  75%;
+    }
+
+    .map_display{
+    	width:100%;
+    	height:350px;
+    	border: 1px solid red;
+    }
+</style>
+
+ <header data-role="header" data-position="fixed" data-theme="a">
+     <h2>EMU-IT</h2>
+		<a href="#left-panel" data-icon="home" data-role="button" data-iconshadow="false">HOME</a>
+    </header> 
+
+    <footer data-role="footer" data-position="fixed" data-theme="a">
+      <h2>Copyright &copy All Right Reserved</h2>
+    </footer>
+
+    
+</head>
+<style>
+		
+		.center {
+			text-align: center;
+			margin-left: auto;
+			margin-right:auto;
+		}
+		.banner {
+			display:block;
+			width: 90%;
+			height: 50%;
+		
+		}
+	</style>
+<body >
+	
+	<!-- <div data-role="panel" id="left-panel" data-display="push" data-theme="a">
+	    <ul data-theme="a" data-role="listview">
+	          	<li ><a href="#gallery" data-rel="close" onclick="loadgallery()">Photo Gallery</a></li>
+	          	<li ><a href="#others" data-rel="close">Others</a></li>
+	    </ul>
+	</div> --><!-- /panel -->
+		
+
+		<div data-role="page" id="home" data-theme="a">
+			<header data-role="header" data-position="fixed" data-theme="a">
+     <h2>EMU-IT</h2>
+    </header>
+	<div data-role="content" class="content">
+               <p><img src="images/emu_logo.jpg" class="banner"></p>
+               <a href="#where_am_i" onclick="where_im_i()"><button>Where am I?</button></a>
+               
+               <button>Find Location</button>
+</div>
+<footer data-role="footer" data-position="fixed" data-theme="a">
+      <h2>Copyright &copy All Right Reserved</h2>
+    </footer>
+</div>
+
+<!-- programs page-->
+<div data-role="page" data-theme="a" id="where_am_i">
+<div data-role="content" class="content">
+	<div class="map_display" id="map_where_am_i"><span align="center"> Loading your location...<img src="images/loading.gif" width="20" height="20"></span></div>
+</div>
+</div>
+
+<!--end of page-->
+
+
+
+
+<!-- About App page-->
+<div data-role="page" data-theme="a" id="aboutapp">
+<div data-role="content" class="content">
+		<h1>ABOUT APP</h1>
+		<p>This application is designed by group 4 of Itec404  <br />
+			in Fulfilment of the graduation project for the Fall semester
+			<br />
+			 <button id="download_manual" onclick="download_manual()">Download Manual</button> 
+		</p>
+		<p>You have any question? contact the admin by sending email to  <a href="mailto:admin@sctit.emu.edu.tr">admin@sctit.emu.edu.tr</a> </p>
+</div>
+</div>
+
+<!--end of page-->
+
+
+
+
+
+<!-- This page will be displayed as a dialog -->
+    <div id="errorpage" data-role="page" data-dialog="true" data-close-btn="right" data-theme="a">
+        <div data-role="header">
+          <h1>Request Fail</h1>
+        </div>
+        <div class="ui-content">
+          <p>An error occured! <br />
+          	 Please check that you are connected to the internet
+          </p>
+        </div>
+       
+    </div>
+
+
+</body>
+</html>
