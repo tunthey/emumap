@@ -10,7 +10,8 @@ var watchID;
         var directionsDisplay;
         var directionsService = new google.maps.DirectionsService();
         var map;
-
+        var my_location_lat;
+        var my_location_lnt;
         // position options
         var MAXIMUM_AGE = 200; // miliseconds
         var TIMEOUT = 300000;
@@ -24,6 +25,10 @@ function getGeoLocation() {
             }
         }
 
+function set_my_details(position){
+    my_location_lat = position.coords.latitude;
+    my_location_lnt = position.coords.longitude;
+}
         function show_map(position) {
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
@@ -84,9 +89,26 @@ function getGeoLocation() {
                 timeout: TIMEOUT
             });
         }
+
+        function handle_processsing(){
+              watchID = geo.watchPosition(set_my_details, geo_error, {
+                enableHighAccuracy: HIGHACCURACY,
+                maximumAge: MAXIMUM_AGE,
+                timeout: TIMEOUT
+            });
+        }
+
 function where_im_i(){
 	 if((geo = getGeoLocation())) {
                 startWatching();
+            } else {
+                alert('Geolocation not supported.')
+            }
+}
+
+function handle_current_location_settings(){
+     if((geo = getGeoLocation())) {
+               handle_processsing();
             } else {
                 alert('Geolocation not supported.')
             }
@@ -97,7 +119,7 @@ function load_search_cafeteria() {
         alert('Please enter the name of cafeteria to search');
     else{
         var cafe_name = $('#cafe_name_search').val();
-        var dataurl = 'http://localhost:81/emumapservice/list_search_cafeteria.php?name='+cafe_name;
+        var dataurl = 'http://emumapservice.yournorthcyprus.com/list_search_cafeteria.php?name='+cafe_name;
     $.ajax({
                 url: dataurl,
                 //timeout: 5000,
@@ -142,7 +164,7 @@ function load_search_cafeteria() {
 }
 
 function load_all_cafeteria(){
-    var dataurl = 'http://localhost:81/emumapservice/list_all_cafeteria.php';
+    var dataurl = 'http://emumapservice.yournorthcyprus.com/list_all_cafeteria.php';
     $.ajax({
                 url: dataurl,
                 //timeout: 5000,
@@ -183,7 +205,7 @@ function load_all_cafeteria(){
 }
 
 function load_cafeteria_details(id){
-     var dataurl = 'http://localhost:81/emumapservice/get_cafeteria_details.php?id='+id;
+     var dataurl = 'http://emumapservice.yournorthcyprus.com/get_cafeteria_details.php?id='+id;
     $.ajax({
                 url: dataurl,
                 //timeout: 5000,
@@ -222,8 +244,61 @@ function load_cafeteria_details(id){
 }
 
 function load_direction(lat,lng){
-    
+    console.log(lat);
+    console.log(lng);
+    $.mobile.loading('show', {
+                 theme: "a",
+                 text: "Processing Request... please wait",
+                 textonly: true,
+                 textVisible: true
+                    });
+    handle_current_location_settings();
+  var dest = new google.maps.LatLng(lat, lng);
+  console.log(my_location_lat);
+  console.log(my_location_lnt);
+  var fromloc = new google.maps.LatLng(my_location_lat, my_location_lnt);
+   directionsDisplay = new google.maps.DirectionsRenderer();
+  var cyprus = new google.maps.LatLng(35.1439106, 33.909568);
+  var mapOptions = {
+    zoom:9,
+    center: cyprus
+  };
+  map = new google.maps.Map(document.getElementById('map_where_am_i'), mapOptions);
+  directionsDisplay.setMap(map);
+  var request = {
+      origin:fromloc,
+      destination:dest,
+      travelMode: google.maps.TravelMode.DRIVING
+  };
+  directionsService.route(request, function(response, status) {
+    console.log(response);
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    }
+  });
+
+  show_your_location();
+  $.mobile.loading('hide');
+  redirect_to('#where_am_i');
+  
 }
+
+function show_your_location() {
+            var latlng = new google.maps.LatLng(my_location_lat, my_location_lnt);
+
+            if(map) {
+                map.panTo(latlng);
+                map.setTilt(0); // turns off the annoying default 45-deg view
+                console.log('running');
+                mapMarker = new google.maps.Marker({
+                    position: latlng,
+                    title:"You are here."
+                });
+                mapMarker.setMap(map);
+                mapMarker.setPosition(latlng);
+
+            }
+        }
 
 function download_manual(){
 	window.open("http://mobile.yournorthcyprus.com/user_manual.php","_system");
