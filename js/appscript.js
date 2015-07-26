@@ -263,7 +263,7 @@ function load_direction(lat,lng){
     zoom:9,
     center: cyprus
   };
-  map = new google.maps.Map(document.getElementById('map_where_am_i'), mapOptions);
+  map = new google.maps.Map(document.getElementById('direction_map_loc'), mapOptions);
   directionsDisplay.setMap(map);
   var request = {
       origin:fromloc,
@@ -279,7 +279,7 @@ function load_direction(lat,lng){
 
   show_your_location();
   $.mobile.loading('hide');
-  redirect_to('#where_am_i');
+  redirect_to('#directions_map');
   
 }
 
