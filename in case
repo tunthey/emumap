@@ -1,3 +1,44 @@
+<!-- new page-->
+<div data-role="page" data-theme="a" id="find_location">
+  <header data-role="header" data-position="fixed" data-theme="a">
+     <h2>EMU-IT</h2>
+    <a href="#home" data-icon="back" data-role="button" data-iconshadow="false">Back</a>
+    </header>
+<div data-role="content" class="content">
+  
+  <h3>main title</h3>
+  <br>
+  <div>
+ content... upper div dont really matter
+  </div>
+</div>
+</div>
+
+<!--end of page-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
         $(document).on('pageshow', '#index',function(e,data){   
          
@@ -26,3 +67,4 @@
             return content_height;
         }
     </script> 
+

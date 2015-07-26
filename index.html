@@ -16,7 +16,8 @@
 <script id="panel-init">
 		$(function() {
 			//$( "body>[data-role='panel']" ).panel().enhanceWithin();;
-			$( "[data-role='header'], [data-role='footer']" ).toolbar();
+			//$( "[data-role='header'], [data-role='footer']" ).toolbar();
+			$( "[data-role='footer']" ).toolbar();
 		});
 	
 	</script>
@@ -36,10 +37,10 @@
     }
 </style>
 
- <header data-role="header" data-position="fixed" data-theme="a">
+ <!-- <header data-role="header" data-position="fixed" data-theme="a">
      <h2>EMU-IT</h2>
-		<a href="#left-panel" data-icon="home" data-role="button" data-iconshadow="false">HOME</a>
-    </header> 
+		<a href="#home" data-icon="home" data-role="button" data-iconshadow="false">HOME</a>
+    </header>  -->
 
     <footer data-role="footer" data-position="fixed" data-theme="a">
       <h2>Copyright &copy All Right Reserved</h2>
@@ -76,18 +77,24 @@
      <h2>EMU-IT</h2>
     </header>
 	<div data-role="content" class="content">
-               <p><img src="images/emu_logo.jpg" class="banner"></p>
-               <a href="#where_am_i" onclick="where_im_i()"><button>Where am I?</button></a>
-               
-               <button>Find Location</button>
+		<div>
+			<p><img src="images/emu_logo.jpg" class="banner"></p>
+			<a href="#where_am_i" class="ui-btn ui-corner-all" onclick="where_im_i()">Where am I?</a>
+			<a href="#find_location" class="ui-btn ui-corner-all">Find Location</a>
+		</div>  
+       
 </div>
 <footer data-role="footer" data-position="fixed" data-theme="a">
       <h2>Copyright &copy All Right Reserved</h2>
     </footer>
 </div>
 
-<!-- programs page-->
+<!-- tracking page-->
 <div data-role="page" data-theme="a" id="where_am_i">
+	<header data-role="header" data-position="fixed" data-theme="a">
+     <h2>EMU-IT</h2>
+		<a href="#home" data-icon="carat-l" data-role="button" data-iconshadow="false">Back</a>
+    </header>
 <div data-role="content" class="content">
 	<div class="map_display" id="map_where_am_i"><span align="center"> Loading your location...<img src="images/loading.gif" width="20" height="20"></span></div>
 </div>
@@ -96,7 +103,167 @@
 <!--end of page-->
 
 
+<!-- find location page-->
+<div data-role="page" data-theme="a" id="find_location">
+	<header data-role="header" data-position="fixed" data-theme="a">
+     <h2>EMU-IT</h2>
+		<a href="#home" data-icon="carat-l" data-role="button" data-iconshadow="false">Back</a>
+    </header>
+<div data-role="content" class="content">
+	
+	<h3>What type of location?</h3>
+	<br>
+	<div>
+	<ul data-theme="a" data-role="listview">
+		<li><a href="#cafeteria">Cafeteria</a></li>
+		<li><a href="#building">Buildings</a></li>
+		<li><a href="#office">Offices</a></li>
+		<li><a href="#atm">ATM</a></li>
+		<li><a href="#computer_lab">Computer Labs</a></li>
+	</ul>
+	</div>
+</div>
+</div>
 
+<!--end of page-->
+
+<!-- Cafeteria page-->
+<div data-role="page" data-theme="a" id="cafeteria">
+  <header data-role="header" data-position="fixed" data-theme="a">
+     <h2>EMU-IT</h2>
+    <a href="#find_location" data-icon="carat-l" data-role="button" data-iconshadow="false">Back</a>
+    </header>
+<div data-role="content" class="content">
+  
+  <h3 align="center">Cafeteria</h3>
+  <br>
+  <div>
+<input type="text" name="cafe_name_search" id="cafe_name_search" placeholder="Enter name of Cafeteria" />
+<input type="button" name="search" value="Search" onclick="load_search_cafeteria()" />
+<input type="button" name="list_all_cafe" value="List all cafeteria" onclick="load_all_cafeteria()" />
+  </div>
+</div>
+</div>
+
+<!--end of page-->
+
+<!-- Cafeteria list page-->
+<div data-role="page" data-theme="a" id="cafeteria_list">
+  <header data-role="header" data-position="fixed" data-theme="a">
+     <h2>EMU-IT</h2>
+    <a href="#cafeteria" data-icon="carat-l" data-role="button" data-iconshadow="false">Back</a>
+    </header>
+<div data-role="content" class="content" data-theme="b">
+  
+  <h3>Cafeteria Listing</h3>
+  <br>
+  <div id="cafeteria_content_listing_area">
+
+  </div>
+</div>
+</div>
+
+<!--end of page-->
+
+<!-- Cafeteria details page-->
+<div data-role="page" data-theme="a" id="cafeteria_details">
+  <header data-role="header" data-position="fixed" data-theme="a">
+     <h2>EMU-IT</h2>
+    <a href="#cafeteria_list" data-icon="carat-l" data-role="button" data-iconshadow="false">Back</a>
+    </header>
+<div data-role="content" class="content" data-theme="a">
+  
+  <h3>Cafeteria Details</h3>
+  <br>
+  <div id="cafeteria_details_area">
+  </div>
+</div>
+</div>
+
+<!--end of page-->
+
+<!-- building page-->
+<div data-role="page" data-theme="a" id="building">
+  <header data-role="header" data-position="fixed" data-theme="a">
+     <h2>EMU-IT</h2>
+    <a href="#find_location" data-icon="carat-l" data-role="button" data-iconshadow="false">Back</a>
+    </header>
+<div data-role="content" class="content">
+  
+  <h3 align="center">Building</h3>
+  <br>
+  <div>
+<input type="text" name="name_search" placeholder="Enter name of Building" />
+<input type="button" name="search" value="Search" />
+<input type="button" name="list_all_cafe" value="List all Building" />
+  </div>
+</div>
+</div>
+
+<!--end of page-->
+
+
+<!-- building page-->
+<div data-role="page" data-theme="a" id="office">
+  <header data-role="header" data-position="fixed" data-theme="a">
+     <h2>EMU-IT</h2>
+    <a href="#find_location" data-icon="carat-l" data-role="button" data-iconshadow="false">Back</a>
+    </header>
+<div data-role="content" class="content">
+  
+  <h3 align="center">Office</h3>
+  <br>
+  <div>
+<input type="text" name="name_search" placeholder="Enter name of Office" />
+<input type="button" name="search" value="Search" />
+<input type="button" name="list_all_cafe" value="List all Office" />
+  </div>
+</div>
+</div>
+
+<!--end of page-->
+
+<!-- building page-->
+<div data-role="page" data-theme="a" id="computer_lab">
+  <header data-role="header" data-position="fixed" data-theme="a">
+     <h2>EMU-IT</h2>
+    <a href="#find_location" data-icon="carat-l" data-role="button" data-iconshadow="false">Back</a>
+    </header>
+<div data-role="content" class="content">
+  
+  <h3 align="center">Computer Lab</h3>
+  <br>
+  <div>
+<input type="text" name="name_search" placeholder="Enter name of Lab" />
+<input type="button" name="search" value="Search" />
+<input type="button" name="list_all_cafe" value="List all Labs" />
+  </div>
+</div>
+</div>
+
+<!--end of page-->
+
+<!-- building page-->
+<div data-role="page" data-theme="a" id="atm">
+  <header data-role="header" data-position="fixed" data-theme="a">
+     <h2>EMU-IT</h2>
+    <a href="#find_location" data-icon="carat-l" data-role="button" data-iconshadow="false">Back</a>
+    </header>
+<div data-role="content" class="content">
+  
+  <h3 align="center">ATM</h3>
+  <br>
+  <div>
+There are (0) ATM on campus. below is their list.
+
+<div data-role="collapsible"><h1>KoopBank ATM</h1><p><div class="content" class="ui-content"><div class="ui-grid-a"><div class="ui-block-a"><p>Currency available</p></div><div class="ui-block-b"><p>USD|TL|EURO</p></div><div class="ui-block-a"><p>Distance</p></div><div class="ui-block-b"><p>4.3 km</p></div></div><button>Get Direction</button></p></div>
+
+
+  </div>
+</div>
+</div>
+
+<!--end of page-->
 
 <!-- About App page-->
 <div data-role="page" data-theme="a" id="aboutapp">
