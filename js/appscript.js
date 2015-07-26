@@ -33,7 +33,10 @@ function set_my_details(position){
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
             var latlng = new google.maps.LatLng(lat, lon);
-
+            my_location_lat = position.coords.latitude;
+            my_location_lnt = position.coords.longitude;
+            console.log("in settings function");
+            console.log(my_location_lnt);
             if(map) {
                 map.panTo(latlng);
                 mapMarker.setPosition(latlng);
@@ -108,7 +111,8 @@ function where_im_i(){
 
 function handle_current_location_settings(){
      if((geo = getGeoLocation())) {
-               handle_processsing();
+        startWatching()
+               //handle_processsing();
             } else {
                 alert('Geolocation not supported.')
             }
@@ -233,7 +237,7 @@ function load_cafeteria_details(id){
                     $.mobile.loading('hide');
                     $('#cafeteria_details_area').html('');
                        for (var i = 0; i < jsondata.length; i++) {
-                       $('#cafeteria_details_area').append('<img src="'+jsondata[i].cafeteria_list.cover_pics+'" alt="Cafeteria Cover Picture" class="banner"><p>'+jsondata[i].cafeteria_list.brief_info+'</p><button class="ui-btn" onclick="load_direction('+jsondata[i].cafeteria_list.lat+','+jsondata[i].cafeteria_list.lng+')" >Get Direction</button>');
+                       $('#cafeteria_details_area').append('<img src="'+jsondata[i].cafeteria_list.cover_pics+'" alt="Cafeteria Cover Picture" class="banner"><p>'+jsondata[i].cafeteria_list.brief_info+'</p><button class="ui-btn" onclick="getmylocation('+jsondata[i].cafeteria_list.lat+','+jsondata[i].cafeteria_list.lng+')" >Get Direction</button>');
                        }
                       // $('#cgdb').button();
                     redirect_to('#cafeteria_details');
@@ -253,15 +257,17 @@ function load_direction(lat,lng){
                  textVisible: true
                     });
     handle_current_location_settings();
+    stopWatching();
   var dest = new google.maps.LatLng(lat, lng);
   console.log(my_location_lat);
   console.log(my_location_lnt);
   var fromloc = new google.maps.LatLng(my_location_lat, my_location_lnt);
+  console.log(fromloc);
    directionsDisplay = new google.maps.DirectionsRenderer();
   var cyprus = new google.maps.LatLng(35.1439106, 33.909568);
   var mapOptions = {
     zoom:9,
-    center: cyprus
+    center: dest
   };
   map = new google.maps.Map(document.getElementById('direction_map_loc'), mapOptions);
   directionsDisplay.setMap(map);
@@ -299,6 +305,76 @@ function show_your_location() {
 
             }
         }
+
+function getmylocation (lat,lng) {
+    // body...
+     $.mobile.loading('show', {
+                 theme: "a",
+                 text: "Processing Request... please wait",
+                 textonly: true,
+                 textVisible: true
+                    });
+if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+var dest = new google.maps.LatLng(lat, lng);
+directionsDisplay = new google.maps.DirectionsRenderer();
+  //var cyprus = new google.maps.LatLng(35.1439106, 33.909568);
+  var mapOptions = {
+    zoom:6,
+    center: dest
+  };
+  map = new google.maps.Map(document.getElementById('direction_map_loc'), mapOptions);
+  directionsDisplay.setMap(map);
+  var request = {
+      origin:pos,
+      destination:dest,
+      travelMode: google.maps.TravelMode.DRIVING
+  };
+  directionsService.route(request, function(response, status) {
+    console.log(response);
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    }
+  });
+
+ // show_your_location();
+  $.mobile.loading('hide');
+  redirect_to('#directions_map');
+
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
+  }
+}
+// Try HTML5 geolocation
+  
+
+function handleNoGeolocation(errorFlag) {
+  if (errorFlag) {
+    var content = 'Error: The Geolocation service failed.';
+  } else {
+    var content = 'Error: Your Device doesn\'t support geolocation.';
+  }
+
+  var options = {
+    map: map,
+    position: new google.maps.LatLng(60, 105),
+    content: content
+  };
+    var mapOptions = {
+    zoom:6,
+    center: new google.maps.LatLng(60, 105)
+  };
+map = new google.maps.Map(document.getElementById('direction_map_loc'), mapOptions);
+  var infowindow = new google.maps.InfoWindow(options);
+  map.setCenter(options.position);
+}
+
 
 function download_manual(){
 	window.open("http://mobile.yournorthcyprus.com/user_manual.php","_system");
